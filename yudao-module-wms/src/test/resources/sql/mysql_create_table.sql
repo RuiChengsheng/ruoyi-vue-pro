@@ -1,0 +1,320 @@
+CREATE TABLE IF NOT EXISTS `wms_warehouse` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `code` varchar(20) NOT NULL COMMENT '仓库编码',
+  `name` varchar(50) NOT NULL COMMENT '仓库名称',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `sort` int(11) DEFAULT '0' COMMENT '排序',
+  `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '租户编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='WMS 仓库表';
+
+CREATE TABLE IF NOT EXISTS `wms_merchant` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `code` varchar(20) NOT NULL COMMENT '企业编码',
+  `name` varchar(60) NOT NULL COMMENT '企业名称',
+  `type` tinyint(4) NOT NULL COMMENT '企业类型',
+  `level` varchar(10) DEFAULT NULL COMMENT '企业等级',
+  `bank_name` varchar(255) DEFAULT NULL COMMENT '开户行',
+  `bank_account` varchar(40) DEFAULT NULL COMMENT '银行账号',
+  `address` varchar(200) DEFAULT NULL COMMENT '地址',
+  `mobile` varchar(13) DEFAULT NULL COMMENT '手机号',
+  `telephone` varchar(13) DEFAULT NULL COMMENT '电话',
+  `contact` varchar(30) DEFAULT NULL COMMENT '联系人',
+  `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '租户编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='WMS 往来企业表';
+
+CREATE TABLE IF NOT EXISTS `wms_item_brand` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `code` varchar(20) NOT NULL COMMENT '品牌编码',
+  `name` varchar(30) NOT NULL COMMENT '品牌名称',
+  `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '租户编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='WMS 商品品牌表';
+
+CREATE TABLE IF NOT EXISTS `wms_item_category` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `parent_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '父分类编号',
+  `code` varchar(20) NOT NULL COMMENT '分类编码',
+  `name` varchar(30) NOT NULL COMMENT '分类名称',
+  `sort` int(11) DEFAULT '0' COMMENT '排序',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态',
+  `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '租户编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='WMS 商品分类表';
+
+CREATE TABLE IF NOT EXISTS `wms_item` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `code` varchar(20) DEFAULT NULL COMMENT '商品编码',
+  `name` varchar(60) NOT NULL COMMENT '商品名称',
+  `category_id` bigint(20) NOT NULL COMMENT '商品分类编号',
+  `unit` varchar(20) DEFAULT NULL COMMENT '单位',
+  `brand_id` bigint(20) DEFAULT NULL COMMENT '品牌编号',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '租户编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='WMS 商品表';
+
+CREATE TABLE IF NOT EXISTS `wms_item_sku` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `name` varchar(255) NOT NULL COMMENT 'SKU 名称',
+  `item_id` bigint(20) NOT NULL COMMENT '商品编号',
+  `bar_code` varchar(64) DEFAULT NULL COMMENT '条形码',
+  `code` varchar(64) DEFAULT NULL COMMENT 'SKU 编码',
+  `length` decimal(10,1) DEFAULT NULL COMMENT '长',
+  `width` decimal(10,1) DEFAULT NULL COMMENT '宽',
+  `height` decimal(10,1) DEFAULT NULL COMMENT '高',
+  `gross_weight` decimal(10,3) DEFAULT NULL COMMENT '毛重',
+  `net_weight` decimal(10,3) DEFAULT NULL COMMENT '净重',
+  `cost_price` decimal(16,2) DEFAULT NULL COMMENT '成本价',
+  `selling_price` decimal(16,2) DEFAULT NULL COMMENT '销售价',
+  `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '租户编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='WMS 商品 SKU 表';
+
+CREATE TABLE IF NOT EXISTS `wms_inventory` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `sku_id` bigint(20) NOT NULL COMMENT 'SKU 编号',
+  `warehouse_id` bigint(20) NOT NULL COMMENT '仓库编号',
+  `area_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '库区编号',
+  `quantity` decimal(20,2) NOT NULL DEFAULT '0' COMMENT '库存数量',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '租户编号',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_sku_id_warehouse_id` (`sku_id`, `warehouse_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='WMS 库存表';
+
+CREATE TABLE IF NOT EXISTS `wms_inventory_history` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `warehouse_id` bigint(20) NOT NULL COMMENT '仓库编号',
+  `area_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '库区编号',
+  `sku_id` bigint(20) NOT NULL COMMENT 'SKU 编号',
+  `quantity` decimal(20,2) NOT NULL DEFAULT '0' COMMENT '变更数量',
+  `before_quantity` decimal(20,2) DEFAULT NULL COMMENT '变更前数量',
+  `after_quantity` decimal(20,2) DEFAULT NULL COMMENT '变更后数量',
+  `batch_no` varchar(64) DEFAULT NULL COMMENT '批次号',
+  `production_date` datetime DEFAULT NULL COMMENT '生产日期',
+  `expiration_date` datetime DEFAULT NULL COMMENT '过期日期',
+  `price` decimal(16,2) DEFAULT NULL COMMENT '单价',
+  `total_price` decimal(16,2) DEFAULT NULL COMMENT '总价',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `order_id` bigint(20) DEFAULT NULL COMMENT '单据编号',
+  `order_no` varchar(64) DEFAULT NULL COMMENT '单据号',
+  `order_type` int(11) DEFAULT NULL COMMENT '单据类型',
+  `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '租户编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='WMS 库存流水表';
+
+CREATE TABLE IF NOT EXISTS `wms_receipt_order` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `no` varchar(64) NOT NULL COMMENT '入库单号',
+  `type` int(11) NOT NULL COMMENT '入库类型',
+  `order_time` datetime NOT NULL COMMENT '入库时间',
+  `status` int(11) NOT NULL DEFAULT '0' COMMENT '状态',
+  `biz_order_no` varchar(64) DEFAULT NULL COMMENT '业务单号',
+  `merchant_id` bigint(20) DEFAULT NULL COMMENT '往来企业编号',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `warehouse_id` bigint(20) NOT NULL COMMENT '仓库编号',
+  `area_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '库区编号',
+  `total_quantity` decimal(20,2) NOT NULL DEFAULT '0' COMMENT '总数量',
+  `total_price` decimal(16,2) DEFAULT NULL COMMENT '总金额',
+  `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '租户编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='WMS 入库单表';
+
+CREATE TABLE IF NOT EXISTS `wms_receipt_order_detail` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `order_id` bigint(20) NOT NULL COMMENT '入库单编号',
+  `sku_id` bigint(20) NOT NULL COMMENT 'SKU 编号',
+  `warehouse_id` bigint(20) NOT NULL COMMENT '仓库编号',
+  `area_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '库区编号',
+  `batch_no` varchar(64) DEFAULT NULL COMMENT '批次号',
+  `production_date` datetime DEFAULT NULL COMMENT '生产日期',
+  `expiration_date` datetime DEFAULT NULL COMMENT '过期日期',
+  `quantity` decimal(20,2) NOT NULL DEFAULT '0' COMMENT '数量',
+  `price` decimal(16,2) DEFAULT NULL COMMENT '单价',
+  `total_price` decimal(16,2) DEFAULT NULL COMMENT '总价',
+  `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '租户编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='WMS 入库单明细表';
+
+CREATE TABLE IF NOT EXISTS `wms_shipment_order` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `no` varchar(64) NOT NULL COMMENT '出库单号',
+  `type` int(11) NOT NULL COMMENT '出库类型',
+  `order_time` datetime NOT NULL COMMENT '出库时间',
+  `status` int(11) NOT NULL DEFAULT '0' COMMENT '状态',
+  `biz_order_no` varchar(64) DEFAULT NULL COMMENT '业务单号',
+  `merchant_id` bigint(20) DEFAULT NULL COMMENT '往来企业编号',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `warehouse_id` bigint(20) NOT NULL COMMENT '仓库编号',
+  `area_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '库区编号',
+  `total_quantity` decimal(20,2) NOT NULL DEFAULT '0' COMMENT '总数量',
+  `total_price` decimal(16,2) DEFAULT NULL COMMENT '总金额',
+  `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '租户编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='WMS 出库单表';
+
+CREATE TABLE IF NOT EXISTS `wms_shipment_order_detail` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `order_id` bigint(20) NOT NULL COMMENT '出库单编号',
+  `sku_id` bigint(20) NOT NULL COMMENT 'SKU 编号',
+  `warehouse_id` bigint(20) NOT NULL COMMENT '仓库编号',
+  `area_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '库区编号',
+  `inventory_detail_id` bigint(20) DEFAULT NULL COMMENT '库存明细编号',
+  `batch_no` varchar(64) DEFAULT NULL COMMENT '批次号',
+  `production_date` datetime DEFAULT NULL COMMENT '生产日期',
+  `expiration_date` datetime DEFAULT NULL COMMENT '过期日期',
+  `quantity` decimal(20,2) NOT NULL DEFAULT '0' COMMENT '数量',
+  `price` decimal(16,2) DEFAULT NULL COMMENT '单价',
+  `total_price` decimal(16,2) DEFAULT NULL COMMENT '总价',
+  `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '租户编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='WMS 出库单明细表';
+
+CREATE TABLE IF NOT EXISTS `wms_movement_order` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `no` varchar(64) NOT NULL COMMENT '移库单号',
+  `order_time` datetime NOT NULL COMMENT '移库时间',
+  `status` int(11) NOT NULL DEFAULT '0' COMMENT '状态',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `source_warehouse_id` bigint(20) NOT NULL COMMENT '来源仓库编号',
+  `target_warehouse_id` bigint(20) NOT NULL COMMENT '目标仓库编号',
+  `total_quantity` decimal(20,2) NOT NULL DEFAULT '0' COMMENT '总数量',
+  `total_price` decimal(16,2) DEFAULT NULL COMMENT '总金额',
+  `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '租户编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='WMS 移库单表';
+
+CREATE TABLE IF NOT EXISTS `wms_movement_order_detail` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `order_id` bigint(20) NOT NULL COMMENT '移库单编号',
+  `sku_id` bigint(20) NOT NULL COMMENT 'SKU 编号',
+  `source_warehouse_id` bigint(20) NOT NULL COMMENT '来源仓库编号',
+  `target_warehouse_id` bigint(20) NOT NULL COMMENT '目标仓库编号',
+  `inventory_detail_id` bigint(20) DEFAULT NULL COMMENT '库存明细编号',
+  `batch_no` varchar(64) DEFAULT NULL COMMENT '批次号',
+  `production_date` datetime DEFAULT NULL COMMENT '生产日期',
+  `expiration_date` datetime DEFAULT NULL COMMENT '过期日期',
+  `quantity` decimal(20,2) NOT NULL DEFAULT '0' COMMENT '数量',
+  `price` decimal(16,2) DEFAULT NULL COMMENT '单价',
+  `total_price` decimal(16,2) DEFAULT NULL COMMENT '总价',
+  `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '租户编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='WMS 移库单明细表';
+
+CREATE TABLE IF NOT EXISTS `wms_check_order` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `no` varchar(64) NOT NULL COMMENT '盘库单号',
+  `order_time` datetime NOT NULL COMMENT '盘库时间',
+  `status` int(11) NOT NULL DEFAULT '0' COMMENT '状态',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `warehouse_id` bigint(20) NOT NULL COMMENT '仓库编号',
+  `area_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '库区编号',
+  `total_quantity` decimal(20,2) NOT NULL DEFAULT '0' COMMENT '账面总数量',
+  `total_price` decimal(16,2) DEFAULT NULL COMMENT '账面总金额',
+  `actual_price` decimal(16,2) DEFAULT NULL COMMENT '实盘总金额',
+  `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '租户编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='WMS 盘库单表';
+
+CREATE TABLE IF NOT EXISTS `wms_check_order_detail` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `order_id` bigint(20) NOT NULL COMMENT '盘库单编号',
+  `sku_id` bigint(20) NOT NULL COMMENT 'SKU 编号',
+  `warehouse_id` bigint(20) NOT NULL COMMENT '仓库编号',
+  `area_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '库区编号',
+  `inventory_id` bigint(20) DEFAULT NULL COMMENT '库存编号',
+  `inventory_detail_id` bigint(20) DEFAULT NULL COMMENT '库存明细编号',
+  `batch_no` varchar(64) DEFAULT NULL COMMENT '批次号',
+  `production_date` datetime DEFAULT NULL COMMENT '生产日期',
+  `expiration_date` datetime DEFAULT NULL COMMENT '过期日期',
+  `receipt_time` datetime DEFAULT NULL COMMENT '入库时间',
+  `quantity` decimal(20,2) NOT NULL DEFAULT '0' COMMENT '账面数量',
+  `check_quantity` decimal(20,2) NOT NULL DEFAULT '0' COMMENT '实盘数量',
+  `price` decimal(16,2) DEFAULT NULL COMMENT '单价',
+  `creator` varchar(64) DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '租户编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='WMS 盘库单明细表';
